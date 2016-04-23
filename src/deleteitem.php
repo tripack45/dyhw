@@ -4,7 +4,10 @@
     $itemid =  $_GET['itemid'];
     
     
-    $result = $SQLServer -> query("SELECT * FROM todolist WHERE itemid=$itemid;");
+    $query = $SQLServer -> prepare("SELECT * FROM todolist WHERE itemid=?");
+    $query -> bind_param('d',$itemid);
+    $query -> execute();
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }
@@ -21,7 +24,9 @@
         errmsg('Illegal Access','list.php');
     }
     
-    $SQLServer -> query("DELETE FROM todolist WHERE itemid=$itemid;");
+    $query = $SQLServer -> prepare("DELETE FROM todolist WHERE itemid=?");
+    $query -> bind_param('d',$itemid);
+    $query -> execute();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }

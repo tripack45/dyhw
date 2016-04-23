@@ -8,8 +8,11 @@
         errmsg('Error: Empty content!','list.php');
     }
     
-    $querryString = "INSERT INTO todolist (uid,content) VALUES ($uid,'$content');";
-    $result = $SQLServer -> query($querryString);
+    $query = $SQLServer -> prepare("INSERT INTO todolist (uid,content) VALUES (?,?)");
+    $query -> bind_param('ds',$uid,$content);
+    
+    $query -> execute();
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }

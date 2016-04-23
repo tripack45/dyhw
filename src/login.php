@@ -9,7 +9,10 @@
     
     $SQLServer=connectSQLServer($sqlConfig);
     
-    $result = $SQLServer -> query("SELECT * FROM user WHERE username='$username' AND password='$password';");
+    $query = $SQLServer -> prepare("SELECT * FROM user WHERE username=? AND password=?");
+    $query -> bind_param('ss',$username,$password);
+    $query -> execute();   
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }

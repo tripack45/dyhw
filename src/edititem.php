@@ -4,7 +4,14 @@
     $new_content = $_POST['new_content'];
     $itemid      = $_GET['itemid'];
     
-    $result = $SQLServer -> query("SELECT * FROM todolist WHERE itemid=$itemid;");
+    if(empty($new_content)){
+        errmsg('Empty content! Consider deleting it?','list.php');
+    }
+    
+    $query = $SQLServer -> prepare("SELECT * FROM todolist WHERE itemid=?");
+    $query -> bind_param('d',$itemid);
+    $query -> execute();   
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }
@@ -21,7 +28,9 @@
         errmsg('Illegal Access','list.php');
     }
     
-    $SQLServer -> query("UPDATE todolist SET content='$new_content' WHERE itemid=$itemid;");
+    $query = $SQLServer -> prepare("UPDATE todolist SET content=? WHERE itemid=?");
+    $query -> bind_param('sd',$new_content,$itemid);
+    $query -> execute();   
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }

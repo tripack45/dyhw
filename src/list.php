@@ -1,7 +1,10 @@
 <?php
     require_once "bootstrap.php";
     
-    $result = $SQLServer -> query("SELECT * FROM todolist WHERE uid='$uid';");
+    $query = $SQLServer -> prepare("SELECT * FROM todolist WHERE uid=?");
+    $query -> bind_param('d',$uid);
+    $query -> execute();   
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }

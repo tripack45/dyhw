@@ -1,6 +1,7 @@
 <?php
     session_start();
     include_once('utils.php');
+    include_once('config.php');
     
     if(empty($_POST['usrname'])){
         errmsg('Require an user name!','register.html');
@@ -21,7 +22,10 @@
     //Validation of the form over
     $SQLServer=connectSQLServer($sqlConfig);
     
-    $result = $SQLServer -> query("SELECT * FROM user WHERE username ='$username';");
+    $query = $SQLServer -> prepare("SELECT * FROM user WHERE username = ?");
+    $query -> bind_param('s',$username);
+    $query -> execute();
+    $result = $query -> get_result();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }
@@ -29,8 +33,9 @@
         errmsg('Username Already Taken!','register.html');
     }
 
-    $SQLServer -> query("INSERT INTO user (username, password) VALUES ('$username', '$password');");
-    
+    $query = $SQLServer -> prepare("INSERT INTO user (username, password) VALUES (?, ?)");
+    $query -> bind_param('ss',$username,$password);
+    $query -> execute();
     if( $SQLServer -> errno){
         die('SQL error: '. $SQLServer -> error);
     }
