@@ -1,15 +1,13 @@
 <?php
     session_start();
     require_once('utils.php');
+    require_once('config.php');
     
     $username = $_POST['usrname'];
     $password = $_POST['pswd'];
     $uid      = 0;
     
-    $SQLServer = new mysqli("localhost","dyhw","1234","dyhw1");
-    if( $SQLServer -> connect_errno){
-        die("SQL connection failed: ". $SQLServer -> connect_error);
-    }
+    $SQLServer=connectSQLServer($sqlConfig);
     
     $result = $SQLServer -> query("SELECT * FROM user WHERE username='$username' AND password='$password';");
     if( $SQLServer -> errno){

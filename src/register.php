@@ -19,10 +19,7 @@
     $password        = $_POST['pswd'];
     
     //Validation of the form over
-    $SQLServer = new mysqli("localhost","dyhw","1234","dyhw1");
-    if( $SQLServer -> connect_errno){
-        die("SQL connection failed: ". $SQLServer -> connect_error);
-    }
+    $SQLServer=connectSQLServer($sqlConfig);
     
     $result = $SQLServer -> query("SELECT * FROM user WHERE username ='$username';");
     if( $SQLServer -> errno){

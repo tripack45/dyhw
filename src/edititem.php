@@ -1,16 +1,8 @@
 <?php
-    session_start();
-    require_once('utils.php');
-    requireLogin();
-    
-    $uid    =  $_SESSION['uid'];
-    $itemid =  $_GET['itemid'];
+    require_once "bootstrap.php";
+   
     $new_content = $_POST['new_content'];
-    
-    $SQLServer = new mysqli("localhost","dyhw","1234","dyhw1");
-    if( $SQLServer -> connect_errno){
-        die("SQL connection failed: ". $SQLServer -> connect_error);
-    }
+    $itemid      = $_GET['itemid'];
     
     $result = $SQLServer -> query("SELECT * FROM todolist WHERE itemid=$itemid;");
     if( $SQLServer -> errno){
