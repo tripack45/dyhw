@@ -14,8 +14,10 @@ The system utilizes php-Sessions an MySQL. The basic functions include:
 * Login-Register;
 * ToDoList - Inspect The list
 * ToDoList - Add/Delete/Edit an Entry
-* 
-This system provides *Minimum* protection, basically open to SQL Injections :)
+
+This system provides *Minimum* protection, ~~basically open to SQL Injections~~
+With help of prepared statements, Now it is officially bulletproof! :) 
+Except for the fact it is built on rpi3 so that a manual DOS could crash it(perhaps).
 
 *DO NOT USE ANY USUAL PASSWORD IN TYRING OUT THIS PROJECT!!*
 
