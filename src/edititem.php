@@ -4,6 +4,8 @@
     $new_content = $_POST['new_content'];
     $itemid      = $_GET['itemid'];
     
+    $new_conent = htmlspecialchars($new_content);
+    
     if(empty($new_content)){
         errmsg('Empty content! Consider deleting it?','list.php');
     }
