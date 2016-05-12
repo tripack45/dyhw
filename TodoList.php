@@ -71,4 +71,8 @@ class TodoList
         return $this->sql->insert_id;
     }
 
+    function isTaskIDExist($id) {
+        $data = $this->getTaskByID($id);
+        return empty($data) ? false : true;
+    }
 }

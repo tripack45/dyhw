@@ -21,9 +21,9 @@ $container['todoList'] = function($c){
 
 /*  GET    /api/v1/tasks        // Get all tasks
     GET    /api/v1/tasks/:id    // Get a task by id
-    POST   /api/v1/tasks       // Create a new task
+    POST   /api/v1/tasks        // Create a new task
     PUT    /api/v1/tasks/:id    // Update a given task
-    DELETE /api/v1/tasks/:id // Delete a task
+    DELETE /api/v1/tasks/:id   // Delete a task
  */
 
 $app->get   ("/api/$version/tasks"              ,'\controller:getAllTasks');
