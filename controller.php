@@ -1,11 +1,13 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: patri
  * Date: 2016/5/11
  * Time: 14:32
  */
+require_once('TodoList.php');
+require_once('utils.php');
+
 class controller
 {
     protected $ci;
@@ -15,27 +17,61 @@ class controller
     }
 
     public function getAllTasks($request, $response, $args) {
-        $response->write('getAllTask');
+        $todoList = $this->ci->todoList;
+        $data = $todoList->getAllTasks();
+
+        $response = $response->withStatus(200); //OK
+        $response = $response->write(jsonFormater($data));
         return $response;
     }
 
     public function getTaskByID($request, $response, $args) {
-        $response->write('geTaskByID:'.$args['id']);
+        $id = $args['id'];
+        $todoList = $this->ci->todoList;
+        $data = $todoList->getTaskByID($id);
+
+        $response = $response->withStatus(200); //OK
+        $response = $response->write(jsonFormater($data));
         return $response;
     }
 
     public function createTask($request, $response, $args) {
-        $response->write('createTask');
+        $body = $request->getParsedBody();
+        $content = $body['content'];
+        $todoList = $this->ci->todoList;
+
+        $id = $todoList->createTask($content);
+        $entry = $todoList->getTaskByID($id);
+
+        $response = $response->withStatus(201); //Created
+        $response = $response->write(jsonFormater($entry));
         return $response;
     }
 
     public function updateTask($request, $response, $args){
-        $response->write('updateTask:'.$args['id']);
+        $body = $request->getParsedBody();
+        $content = $body['content'];
+        $todoList = $this->ci->todoList;
+        $id = $args['id'];
+
+        $todoList->updateTask($id,$content);
+        $entry = $todoList->getTaskByID($id);
+
+        $response=$response->withStatus(201); //Content Created
+        $response=$response->write(jsonFormater($entry));
         return $response;
     }
 
     public function deleteTask($request, $response, $args){
-        $response->write('deleteTask:'.$args['id']);
+        $id = $args['id'];
+        $todoList = $this->ci->todoList;
+        $todoList->deleteTask($id);
+
+        $response = $response->withStatus(204); //No content
+        return $response;
+    }
+
+    public function noContent($response){
         return $response;
     }
 }

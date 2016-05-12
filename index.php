@@ -3,7 +3,8 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require '../vendor/autoload.php';
-require './config.php';
+require 'config.php';
+require 'TodoList.php';
 
 $app = new \Slim\App(["settings" => $config]);
 spl_autoload_register(function ($classname) {
@@ -13,6 +14,10 @@ spl_autoload_register(function ($classname) {
 $container = $app->getContainer();
 
 $container['view'] = new \Slim\Views\PhpRenderer("./templates/");
+$container['todoList'] = function($c){
+    return new TodoList($c['settings']['db']);
+};
+
 
 /*  GET    /api/v1/tasks        // Get all tasks
     GET    /api/v1/tasks/:id    // Get a task by id
