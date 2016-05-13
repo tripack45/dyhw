@@ -24,3 +24,10 @@ Except for the fact it is built on rpi3 so that a manual DOS could crash it(perh
 Username and password are transmitted in plain-text!
 
 Testing Address: http://59.78.36.78:8080/hw1/
+
+## Homework2:
+An Todo List RESTful API, built upon Slim.
+Testing Server Address: [http://59.78.36.78:8080/hw2/api/v1/tasks](http://59.78.36.78:8080/hw2/api/v1/tasks)
+Built upon [Slim](http://www.slimframework.com/) framework. The app is roughly MVC structured.
+Data are stored using MySQL. Did some protection :-);
+Future Work: Factor out "View" class. Add support for authentication.
