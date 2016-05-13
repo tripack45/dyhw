@@ -5,6 +5,10 @@
  * Date: 2016/5/11
  * Time: 14:32
  */
+
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+
 require_once('TodoList.php');
 require_once('utils.php');
 
@@ -15,7 +19,7 @@ class controller {
         $this->ci = $ci;
     }
 
-    public function getAllTasks($request, $response, $args) {
+    public function getAllTasks(Request $request,Response $response, $args) {
         $todoList = $this->ci->todoList;
         $data = $todoList->getAllTasks();
 
@@ -24,7 +28,7 @@ class controller {
         return $response;
     }
 
-    public function getTaskByID($request, $response, $args) {
+    public function getTaskByID(Request $request,Response $response, $args) {
         $id = $args['id'];
         $todoList = $this->ci->todoList;
 
@@ -38,7 +42,7 @@ class controller {
         return $response;
     }
 
-    public function createTask($request, $response, $args) {
+    public function createTask(Request $request,Response $response, $args) {
         $content = $this->requireBodyContent($request, 'content');
         $todoList = $this->ci->todoList;
 
@@ -53,7 +57,7 @@ class controller {
         return $response;
     }
 
-    public function updateTask($request, $response, $args) {
+    public function updateTask(Request $request,Response $response, $args) {
         $content = $this->requireBodyContent($request, 'content');
         $todoList = $this->ci->todoList;
         $id = $args['id'];
@@ -71,7 +75,7 @@ class controller {
         return $response;
     }
 
-    public function deleteTask($request, $response, $args) {
+    public function deleteTask(Request $request,Response $response, $args) {
         $id = $args['id'];
         $todoList = $this->ci->todoList;
 
@@ -84,7 +88,7 @@ class controller {
         return $response;
     }
 
-    public function IDNotFound($request, $response, $args) {
+    public function IDNotFound(Request $request,Response $response, $args) {
         $payload = json_encode(["error" => "No entry by this ID: " . $args]);
 
         $response = $response->withStatus(404);//Not Found
@@ -92,7 +96,7 @@ class controller {
         return $response;
     }
 
-    public function illegleArgument($request, $response, $args) {
+    public function illegleArgument(Request $request,Response $response, $args) {
         $payload = json_encode(["error" => "Illegle Argument"]);
 
         $response = $response->withStatus(400); //Invalid Request
@@ -100,7 +104,7 @@ class controller {
         return $response;
     }
 
-    private function requireBodyContent($request, $content) {
+    private function requireBodyContent(Request $request, $content) {
         $body = $request->getParsedBody();
         if (empty($body)) return false;
         if (!array_key_exists($content, $body)) return false;
