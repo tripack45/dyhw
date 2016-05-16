@@ -9,7 +9,6 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require_once('TodoList.php');
 require_once('utils.php');
 
 class controller {

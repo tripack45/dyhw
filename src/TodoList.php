@@ -10,7 +10,7 @@ class TodoList
 {
     private $sql;
 
-    function __construct($sqlConfig) {
+    public function __construct($sqlConfig) {
         $sql = new mysqli($sqlConfig['host'],
             $sqlConfig['username'],
             $sqlConfig['password'],
@@ -21,18 +21,18 @@ class TodoList
         $this->sql = $sql;
     }
 
-    function __destruct() {
+    public function __destruct() {
         $this->sql->close();
         // TODO: Implement __destruct() method.
     }
 
-    function checkSQLError() {
+    private function checkSQLError() {
         if ($this->sql->errno) {
             die('SQL error: ' . $this->sql->error);
         }
     }
 
-    function getTaskByID($id) {
+    public function getTaskByID($id) {
         $query = $this->sql->prepare('SELECT * FROM todolist WHERE itemid=?');
         $query->bind_param('d', $id);
         $query->execute();
@@ -41,7 +41,7 @@ class TodoList
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    function getAllTasks() {
+    public function getAllTasks() {
         $query = $this->sql->prepare('SELECT * FROM todolist');
         $query->execute();
         $this->checkSQLError();
@@ -49,21 +49,21 @@ class TodoList
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    function deleteTask($id) {
+    public function deleteTask($id) {
         $query = $this->sql->prepare('DELETE FROM todolist WHERE itemid=?');
         $query->bind_param('d', $id);
         $query->execute();
         $this->checkSQLError();
     }
 
-    function updateTask($id,$content) {
+    public function updateTask($id,$content) {
         $query = $this->sql->prepare('UPDATE todolist SET content=? WHERE itemid=?');
         $query->bind_param('sd', $content, $id);
         $query->execute();
         $this->checkSQLError();
     }
     
-    function createTask($content) {
+    public function createTask($content) {
         $query = $this->sql->prepare('INSERT INTO todolist(content) VALUES (?)');
         $query->bind_param('s', $content);
         $query->execute();
@@ -71,7 +71,7 @@ class TodoList
         return $this->sql->insert_id;
     }
 
-    function isTaskIDExist($id) {
+    public function isTaskIDExist($id) {
         $data = $this->getTaskByID($id);
         return empty($data) ? false : true;
     }
