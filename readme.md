@@ -48,6 +48,6 @@ Don't know if the API is correctly "RESTed". Any help will be appreciated!
     * Request:  `POST http://59.78.36.78:8080/hw2/api/v1/tasks` 
         * Request body **MUST** include the `NEW_CONTENT`, encoded in JSON: `{"content","NEW_CONTENT"}` 
     * Response:
-        * Success: HTTP 200, The newly added entry in JSON: `{"NEW_ENTRY_ID":"NEW_CONTENT"}`
+        * Success: HTTP 201, The newly added entry in JSON: `{"NEW_ENTRY_ID":"NEW_CONTENT"}`
         * Failed: HTTP 400, The `content` argument in the request body is either not 
             given or not specified in correct format.
